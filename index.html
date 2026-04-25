@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Just Walk Out — Innovation Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet">
+  <style>
+    /* -- RESET -- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* -- TOKENS -- */
+    :root {
+      --black:   #0c0c0b;
+      --cream:   #e9e0d0;
+      --muted:   #c8b48e;
+      --dim:     #3a342b;
+      --amber:   #c8a050;
+      --border:  #232018;
+      --serif:   'Syne', system-ui, sans-serif;
+      --sans:    'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* -- HERO BACKDROP (parallax layer) -- */
+    #hero-bg {
+      position: absolute;
+      inset: -25% 0;
+      z-index: 0;
+      will-change: transform;
+      background:
+        radial-gradient(ellipse 80% 60% at 30% 35%, rgba(200,160,80,0.22) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 80% 65%, rgba(163,88,32,0.18) 0%, transparent 70%),
+        var(--black);
+    }
+
+    /* -- NAV -- */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      background: rgba(12,12,11,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.02em;
+      color: var(--cream);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--cream); }
+
+    .nav-links .cta {
+      color: var(--black);
+      background: var(--cream);
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-links .cta:hover {
+      background: var(--amber);
+      color: var(--black);
+    }
+
+    /* -- WRAPPER -- */
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* -- DIVIDER -- */
+    .rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* -- HERO -- */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 6rem;
+      padding-top: 8rem;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    #hero .wrap { width: 100%; position: relative; z-index: 1; }
+
+    .hero-kicker {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(4rem, 10vw, 9.5rem);
+      font-weight: 800;
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 3rem;
+    }
+
+    .hero-title .accent { color: var(--amber); }
+
+    .hero-meta-row {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      padding-top: 1.75rem;
+    }
+
+    .hero-meta-item .lbl {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .hero-meta-item .val {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--cream);
+    }
+
+    .hero-desc {
+      max-width: 380px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* -- SECTION SHARED -- */
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* alternating ambient amber glows per section */
+    #intro {
+      background:
+        radial-gradient(ellipse 60% 50% at 90% 20%, rgba(200,160,80,0.08) 0%, transparent 65%),
+        var(--black);
+    }
+    #role {
+      background:
+        radial-gradient(ellipse 55% 45% at 5% 60%, rgba(200,160,80,0.07) 0%, transparent 60%),
+        var(--black);
+    }
+    #technical {
+      background:
+        radial-gradient(ellipse 60% 50% at 85% 80%, rgba(200,160,80,0.08) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 35% at 15% 10%, rgba(163,88,32,0.06) 0%, transparent 60%),
+        var(--black);
+    }
+    #evaluation {
+      background:
+        radial-gradient(ellipse 55% 45% at 10% 30%, rgba(200,160,80,0.07) 0%, transparent 60%),
+        var(--black);
+    }
+    #cs {
+      background:
+        radial-gradient(ellipse 60% 50% at 90% 70%, rgba(200,160,80,0.08) 0%, transparent 65%),
+        var(--black);
+    }
+    #reflection {
+      background:
+        radial-gradient(ellipse 55% 45% at 8% 20%, rgba(200,160,80,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 40% at 90% 85%, rgba(163,88,32,0.06) 0%, transparent 60%),
+        var(--black);
+    }
+    #citations {
+      background:
+        radial-gradient(ellipse 50% 40% at 80% 30%, rgba(200,160,80,0.06) 0%, transparent 60%),
+        var(--black);
+    }
+
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2.5rem;
+    }
+
+    .sec-header {
+      display: flex;
+      gap: 2rem;
+      align-items: baseline;
+      margin-bottom: 4rem;
+    }
+
+    .sec-num {
+      font-family: var(--serif);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--amber);
+      text-transform: uppercase;
+      flex-shrink: 0;
+      padding-top: 0.2rem;
+    }
+
+    .sec-title {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+
+    /* -- THREE-COL TEXT -- */
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 3rem;
+    }
+
+    @media (max-width: 880px) {
+      .three-col { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .col-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+
+    .col-body {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .col-body strong { color: var(--cream); font-weight: 500; }
+
+    /* -- TWO-COL -- */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    @media (max-width: 720px) {
+      .two-col { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    /* -- STAT ROW -- */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: start;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-top: 4rem;
+    }
+
+    .stat-cell {
+      padding: 2rem 0;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat-cell:last-child { border-right: none; }
+
+    .stat-cell .sn {
+      font-family: var(--serif);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      color: var(--cream);
+      display: block;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-cell .sl {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* -- CHIP -- */
+    .chip {
+      display: inline-block;
+      border: 1px solid var(--dim);
+      border-radius: 999px;
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin: 0.2rem 0.1rem;
+    }
+
+    /* -- ARCH DIAGRAM -- */
+    .arch-steps {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 3rem 0;
+    }
+
+    @media (max-width: 900px) {
+      .arch-steps { grid-template-columns: 1fr; }
+    }
+
+    .arch-step {
+      padding: 1.5rem 1rem;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+
+    .arch-step:last-child { border-right: none; }
+
+    .arch-step .step-n {
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .arch-step .step-name {
+      font-family: var(--serif);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--cream);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .arch-step .step-desc {
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* -- EVAL GRID -- */
+    .eval-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 720px) {
+      .eval-grid { grid-template-columns: 1fr; }
+    }
+
+    .eval-item {
+      padding: 2.5rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eval-item:nth-child(2n) { border-right: none; }
+    .eval-item:nth-last-child(-n+2) { border-bottom: none; }
+
+    .eval-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .eval-title {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--cream);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .eval-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .eval-list li {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+      padding-left: 1rem;
+      position: relative;
+      margin-bottom: 0.6rem;
+    }
+
+    .eval-list li::before {
+      content: '-';
+      position: absolute;
+      left: 0;
+      color: var(--dim);
+    }
+
+    .eval-list li strong { color: var(--cream); font-weight: 500; }
+
+    /* -- CS CARDS -- */
+    .cs-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 880px) {
+      .cs-list { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .cs-list { grid-template-columns: 1fr; }
+    }
+
+    .cs-item {
+      padding: 2rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cs-item:nth-child(3n) { border-right: none; }
+    .cs-item:nth-last-child(-n+3) { border-bottom: none; }
+
+    .cs-n {
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .cs-name {
+      font-family: var(--serif);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--cream);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.75rem;
+    }
+
+    .cs-body {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* -- REFLECTION -- */
+    .reflect-pairs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 720px) {
+      .reflect-pairs { grid-template-columns: 1fr; }
+    }
+
+    .rp {
+      padding: 2rem 2.25rem;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .rp:nth-child(2n) { border-right: none; }
+    .rp:nth-last-child(-n+2) { border-bottom: none; }
+
+    .rp-q {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .rp-a {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .rp-a strong { color: var(--cream); font-weight: 500; }
+
+    /* -- GROWTH TRACK -- */
+    .growth-track {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 3rem 0;
+    }
+
+    .gt-step {
+      flex: 1;
+      padding: 2rem;
+      border-right: 1px solid var(--border);
+    }
+
+    .gt-step:last-child { border-right: none; }
+
+    .gt-phase {
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+
+    .gt-label {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--cream);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .gt-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* -- BLOCKQUOTE -- */
+    blockquote {
+      border-left: 2px solid var(--amber);
+      margin: 2.5rem 0;
+      padding: 1rem 0 1rem 2rem;
+    }
+
+    blockquote p {
+      font-size: 1rem;
+      color: var(--cream);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    blockquote cite {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-style: normal;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+
+    /* -- ROLE TIMELINE -- */
+    .tl {
+      border-top: 1px solid var(--border);
+    }
+
+    .tl-item {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 3rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    @media (max-width: 720px) {
+      .tl-item { grid-template-columns: 1fr; gap: 0.75rem; }
+    }
+
+    .tl-key {
+      font-family: var(--serif);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--cream);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding-top: 0.15rem;
+    }
+
+    .tl-val {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .tl-val strong { color: var(--cream); font-weight: 500; }
+
+    /* -- CITATIONS -- */
+    .cit-list {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 2rem;
+    }
+
+    .cit-item {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.5rem;
+    }
+
+    .cit-item:last-child { border-bottom: none; }
+
+    .cit-num {
+      font-family: var(--serif);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--amber);
+      padding-top: 0.1rem;
+      flex-shrink: 0;
+    }
+
+    .cit-text {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .cit-text em { font-style: italic; color: var(--cream); }
+
+    /* -- FOOTER -- */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2.5rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer p {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    footer span { color: var(--amber); }
+
+    /* -- LIGHT THEME (per-section) -- */
+    section.theme-light {
+      background: var(--paper);
+      color: var(--ink);
+    }
+    section.theme-light .sec-title,
+    section.theme-light .col-body strong,
+    section.theme-light .eval-title,
+    section.theme-light .cs-name,
+    section.theme-light .gt-label,
+    section.theme-light .callout-title,
+    section.theme-light .callout p strong,
+    section.theme-light .tl-key,
+    section.theme-light .tl-val strong,
+    section.theme-light .rp-a strong,
+    section.theme-light blockquote p,
+    section.theme-light .stat-cell .sn,
+    section.theme-light .arch-step .step-name,
+    section.theme-light .cit-text em {
+      color: var(--ink);
+    }
+    section.theme-light .col-body,
+    section.theme-light .col-label,
+    section.theme-light .eval-list li,
+    section.theme-light .cs-body,
+    section.theme-light .gt-desc,
+    section.theme-light .rp-a,
+    section.theme-light .callout p,
+    section.theme-light .tl-val,
+    section.theme-light .stat-cell .sl,
+    section.theme-light .arch-step .step-desc,
+    section.theme-light blockquote cite,
+    section.theme-light .cit-text {
+      color: var(--ink-muted);
+    }
+    section.theme-light .sec-num,
+    section.theme-light .eval-label,
+    section.theme-light .cs-n,
+    section.theme-light .gt-phase,
+    section.theme-light .rp-q,
+    section.theme-light .callout-label,
+    section.theme-light .cit-num,
+    section.theme-light .arch-step .step-n {
+      color: var(--rust);
+    }
+    section.theme-light .arch-steps,
+    section.theme-light .eval-grid,
+    section.theme-light .cs-list,
+    section.theme-light .reflect-pairs,
+    section.theme-light .growth-track,
+    section.theme-light .cit-list,
+    section.theme-light .stat-row,
+    section.theme-light .tl,
+    section.theme-light .tl-item,
+    section.theme-light .arch-step,
+    section.theme-light .eval-item,
+    section.theme-light .cs-item,
+    section.theme-light .rp,
+    section.theme-light .gt-step,
+    section.theme-light .stat-cell,
+    section.theme-light .cit-item {
+      border-color: var(--ink-border);
+    }
+    section.theme-light .chip {
+      border-color: var(--ink-border);
+      color: var(--ink-muted);
+      background: rgba(255,255,255,0.25);
+    }
+    section.theme-light .eval-list li::before {
+      color: var(--ink-dim);
+    }
+    section.theme-light blockquote {
+      border-left-color: var(--rust);
+    }
+    section.theme-light .callout {
+      border-color: var(--ink-border);
+      background: rgba(163,88,32,0.06);
+    }
+
+    /* -- FADE BRIDGES (seamless via oklab interpolation) -- */
+    .fade {
+      height: 320px;
+      width: 100%;
+      border: none;
+      margin: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .fade-dark-to-light {
+      background: linear-gradient(in oklab to bottom, var(--black), var(--paper));
+    }
+    .fade-light-to-dark {
+      background: linear-gradient(in oklab to bottom, var(--paper), var(--black));
+    }
+    /* progressive-enhancement fallback for browsers without oklab interpolation */
+    @supports not (background: linear-gradient(in oklab, red, blue)) {
+      .fade-dark-to-light {
+        background: linear-gradient(to bottom, var(--black), #5a3d22 50%, var(--paper));
+      }
+      .fade-light-to-dark {
+        background: linear-gradient(to bottom, var(--paper), #5a3d22 50%, var(--black));
+      }
+    }
+
+    /* dark sections get warm radial glows so they're not flat */
+    section.theme-dark {
+      background:
+        radial-gradient(ellipse 70% 50% at 80% 10%, rgba(122,158,138,0.08) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 50% at 10% 90%, rgba(100,120,160,0.06) 0%, transparent 65%),
+        var(--black);
+    }
+    section.theme-light {
+      background:
+        radial-gradient(ellipse 70% 50% at 85% 15%, rgba(100,120,160,0.05) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 50% at 15% 85%, rgba(110,88,56,0.06) 0%, transparent 65%),
+        var(--paper);
+    }
+
+    /* footer stays dark */
+    footer { background: var(--black); }
+
+
+    /* -- TIMELINE SLIDER -- */
+    .timeline-slider-wrapper {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 10px;
+    }
+    .timeline-slider-wrapper input[type=range] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, rgba(200,160,80,0.1) 0%, rgba(200,160,80,0.4) 50%, rgba(200,160,80,0.1) 100%);
+      border-radius: 4px;
+      outline: none;
+      position: relative;
+      z-index: 2;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(200, 160, 80, 0.2);
+    }
+    .timeline-slider-wrapper input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--amber);
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 20px rgba(200, 160, 80, 0.8), inset 0 0 6px rgba(255, 255, 255, 0.6);
+      border: 3px solid var(--black);
+    }
+    .timeline-slider-wrapper input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.25);
+      background: #ffdb8f;
+      box-shadow: 0 0 30px rgba(255, 219, 143, 0.9), inset 0 0 8px rgba(255, 255, 255, 1);
+    }
+    .timeline-slider-wrapper input[type=range]::-moz-range-thumb {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--amber);
+      cursor: pointer;
+      border: 3px solid var(--black);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 20px rgba(200, 160, 80, 0.8), inset 0 0 6px rgba(255, 255, 255, 0.6);
+    }
+    .timeline-slider-wrapper input[type=range]::-moz-range-thumb:hover {
+      transform: scale(1.25);
+      background: #ffdb8f;
+      box-shadow: 0 0 30px rgba(255, 219, 143, 0.9), inset 0 0 8px rgba(255, 255, 255, 1);
+    }
+
+    /* -- REVEAL -- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.in { opacity: 1; transform: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Ric Rebull</span>
+  <ul class="nav-links">
+    <li><a href="#intro" style="">Intro</a></li>
+    <li><a href="#role" style="">Role</a></li>
+    <li><a href="#technical" style="">Technical</a></li>
+    <li><a href="#evaluation" style="">Evaluation</a></li>
+    <li><a href="#cs" style="color: var(--cream);">CS Links</a></li>
+    <li><a href="#reflection" style="">Reflection</a></li>
+    <li><a href="#citations" class="cta">Sources</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div id="hero-bg"></div>
+  <div class="wrap">
+    <p class="hero-kicker" style="">COP 4910 · Integrative Innovation Portfolio · Spring 2026</p>
+    <h1 class="hero-title" style="">
+      Amazon<br>
+      Just Walk<br>
+      <span class="accent">Out.</span>
+    </h1>
+    <div class="hero-meta-row">
+      <div style="display:flex;gap:3rem;flex-wrap:wrap;">
+        <div class="hero-meta-item">
+          <span class="lbl">Innovation</span>
+          <span class="val" style="">Just Walk Out Technology</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="lbl">Enterprise</span>
+          <span class="val" style="">Amazon: Retail Technology</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="lbl">Author</span>
+          <span class="val" style="">Ric Rebull</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="lbl">Course</span>
+          <span class="val" style="">COP 4910 · UCF</span>
+        </div>
+      </div>
+      <p class="hero-desc" style="">
+        A deep dive into the latest innovation in retail. I will go beyond what was shared in my group's presentation including barriers to adoption, ethical dimensions, its technical architecture, and what the future holds for this technology.
+      </p>
+    </div>
+  </div>
+</div>
+
+<hr class="rule">
+
+<!-- 01 INTRODUCTION -->
+<section id="intro">
+  <div class="section-inner reveal in">
+    <div class="sec-header">
+      <span class="sec-num">01 - Introduction</span>
+      <h2 class="sec-title" style="">The Innovation</h2>
+    </div>
+
+    <div style="margin-bottom: 3.5rem; border-radius: 12px; overflow: hidden; border: 1px solid rgba(200,160,80,0.2); box-shadow: 0 15px 40px rgba(0,0,0,0.6); position: relative;">
+      <img src="images/amazon go store.png" alt="Amazon Go Storefront" style="width: 100%; height: auto; display: block; filter: brightness(0.9) contrast(1.05); transition: filter 0.4s ease, transform 0.4s ease;" onmouseover="this.style.filter='brightness(1) contrast(1)'; this.style.transform='scale(1.02)';" onmouseout="this.style.filter='brightness(0.9) contrast(1.05)'; this.style.transform='scale(1)';">
+    </div>
+
+    <div class="three-col" style="margin-bottom:3rem;">
+      <div>
+        <span class="col-label" style="">What it is</span>
+        <p class="col-body" style="">Amazon Just Walk Out technology (JWO) is a system that automates the checkout experience. First premiered in 2018 inside of Amazon's "Go" grocery chain in Seattle. JWO enables shoppers to take whatever they want from the store, simply walk out, and have their charges billed to a payment card they tapped upon entry. This eliminates lines or check-out wait times.</p>
+      </div>
+      <div>
+        <span class="col-label" style="">How it works</span>
+        <p class="col-body" style="">JWO is a product of its time, strongly enabled by modern technology such as computer vision, deep learning, RFID, and sensor fusion. Cameras are placed on the ceiling in order to track what shoppers are doing. A virtual cart engine tracks purchases in real time. Sensors on the shelf detect when items are picked up or placed back on the shelf. RFID readers pull apparel tags at the exit. Data from different angles are converged to make this process seamless.</p>
+      </div>
+      <div>
+        <span class="col-label" style="">Where it stands</span>
+        <p class="col-body" style="">JWO expansion has been a rocky process. Amazon has licensed the tech as a B2B platform to several airports, stadiums, and campuses. In 2023 and 2024, Amazon closed several of its signature grocery stores, and pulled the tech from the larger grocery industry. This major backstep was something our presentation failed to address honestly.</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom:1.5rem;">
+      <span class="chip">Computer Vision</span>
+      <span class="chip">Deep Learning</span>
+      <span class="chip">Sensor Fusion</span>
+      <span class="chip">RFID</span>
+      <span class="chip">Edge Computing</span>
+      <span class="chip">Real-Time Billing</span>
+      <span class="chip">Multi-tenant SaaS</span>
+    </div>
+
+    <div class="timeline-container" style="margin: 4rem 0 0 0; padding: 4rem 2rem; background: radial-gradient(ellipse 60% 50% at center, rgba(200,160,80,0.12) 0%, rgba(0,0,0,0) 70%); border: 1px solid rgba(200,160,80,0.2); border-radius: 12px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      
+      <!-- Glowing orb behind the text -->
+      <div style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 300px; height: 100px; background: rgba(200,160,80,0.25); filter: blur(60px); pointer-events: none; z-index: 0;"></div>
+
+      <span class="col-label" style="display:block; margin-bottom: 1.5rem; text-align: center; color: var(--amber); font-weight: 800; letter-spacing: 0.25em; text-shadow: 0 0 10px rgba(200,160,80,0.3); position: relative; z-index: 2;">JWO TIMELINE</span>
+      
+      <div class="timeline-display" style="height: 80px; display: flex; align-items: center; justify-content: center; margin-bottom: 3rem; position: relative; z-index: 2;">
+        <h3 id="timeline-text" data-current="0" style="font-family: var(--serif); font-size: clamp(2rem, 5vw, 3.5rem); color: var(--cream); text-shadow: 0 0 25px rgba(200,160,80,0.5); transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateY(0) scale(1); opacity: 1; text-align: center; font-weight: 800; letter-spacing: 0.02em; line-height: 1.1; margin: 0;">Development</h3>
+      </div>
+
+      <div class="timeline-slider-wrapper" style="position: relative; z-index: 2;">
+        <input type="range" id="timeline-slider" min="0" max="5" value="0" step="1">
+        <div class="timeline-marks" style="position: relative; height: 20px; margin-top: 1.5rem;">
+          <span style="position: absolute; left: calc(0% + 16px); transform: translateX(-50%); font-size: 0.85rem; color: var(--cream); font-weight: 600; text-shadow: 0 0 10px rgba(200,160,80,0.4);">2016</span>
+          <span style="position: absolute; left: calc(20% + 9.6px); transform: translateX(-50%); font-size: 0.85rem; color: var(--cream); font-weight: 600; text-shadow: 0 0 10px rgba(200,160,80,0.4);">2018</span>
+          <span style="position: absolute; left: calc(40% + 3.2px); transform: translateX(-50%); font-size: 0.85rem; color: var(--cream); font-weight: 600; text-shadow: 0 0 10px rgba(200,160,80,0.4);">2021</span>
+          <span style="position: absolute; left: calc(60% - 3.2px); transform: translateX(-50%); font-size: 0.85rem; color: var(--cream); font-weight: 600; text-shadow: 0 0 10px rgba(200,160,80,0.4);">2023</span>
+          <span style="position: absolute; left: calc(80% - 9.6px); transform: translateX(-50%); font-size: 0.85rem; color: var(--cream); font-weight: 600; text-shadow: 0 0 10px rgba(200,160,80,0.4);">2024</span>
+          <span style="position: absolute; left: calc(100% - 16px); transform: translateX(-50%); font-size: 0.85rem; color: var(--cream); font-weight: 600; text-shadow: 0 0 10px rgba(200,160,80,0.4);">Now</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <span class="sn" style="">83%</span>
+        <span class="sl" style="">Theft reduction reported at USD pilot</span>
+      </div>
+      <div class="stat-cell" style="padding-left:2rem;">
+        <span class="sn" style="">60%</span>
+        <span class="sl" style="">Faster customer exit vs. traditional checkout</span>
+      </div>
+      <div class="stat-cell" style="padding-left:2rem;">
+        <span class="sn" style="">2018</span>
+        <span class="sl" style="">First public deployment, Amazon Go Seattle</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 02 ROLE -->
+<section id="role">
+  <div class="section-inner reveal in">
+    <div class="sec-header">
+      <span class="sec-num">02 - My Role</span>
+      <h2 class="sec-title" style="">Team Project</h2>
+    </div>
+
+    <div class="two-col" style="margin-bottom:3.5rem;">
+      <div>
+        <span class="col-label" style="">What I contributed</span>
+        <p class="col-body" style="margin-bottom: 1rem;">I presented JWO technology along with Chayann Bradford, Isaac Calisto, and Jacob Wolford for talk 3. My contribution was focused on two of the most analytically demanding areas:</p>
+        <p class="col-body" style="margin-bottom: 0.75rem;">
+          <strong>Slide 7 - "Why It Hasn't Been Implemented"</strong><br>
+          Broke down the major reasons why JWO has not been implemented at a wide scale thus far. I found this important to address honestly as a result of the obvious incongruency between the benefits we shared and the lack of adoption seen in the real world. The five main reasons addressed were: accuracy issues, privacy concerns, cheaper alternatives, limited scalability, and the high cost of hardware.
+        </p>
+        <p class="col-body" style="">
+          <strong>Slide 8 - "Future Potential &amp; Conclusion"</strong><br>
+          Laid out what the future of this technology could hold. I focused on specific use cases where JWO shines, rather than arguing for large scale adoption in the retail sector. These specific use cases included airports, stadiums, college campuses, and other high traffic locations where speed and convenience play a central role. I shared how the technology has improved recently, what it could look like in the coming years, and how it could weaken the implementation barriers.
+        </p>
+      </div>
+      <div>
+        <span class="col-label" style="">What we missed</span>
+        <p class="col-body" style="margin-bottom: 0.75rem;">The information we presented was solid from a foundational, functional approach, but was ultimately surface-level. My breakdown of implementation barriers made each of them seem like simple, solvable engineering problems. Much of my argument relied on AI improving and costs reducing. Upon deeper inspection, I understand the barriers differently.</p>
+        <p class="col-body" style="">Our presentation also failed to fully include the fact that this technology was never fully-automated. In production, Amazon still required around 1,000 remote workers to manually review ambiguous transactions. We should have also discussed the machine learning pipeline enabling person re-identification, how the virtual cart worked via event-sourced data architecture, and Amazon's public retreat from large grocery chains.</p>
+      </div>
+    </div>
+
+    <span class="col-label" style="margin-bottom: 1rem; display: block;">Gaps identified on reflection</span>
+    <div class="tl">
+      <div class="tl-item">
+        <span class="tl-key" style="">Ethics underdeveloped</span>
+        <p class="tl-val" style="">The privacy concern was perhaps the most obvious issue with JWO, but my explanation was too surface level. A better approach would have engaged with the broader ramifications of surveillance, including Amazon's ability to monetize the behavioral shopping data generated by Just Walk Out technology.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-key" style="">Human-in-the-loop missed</span>
+        <p class="tl-val" style="">An investigation into JWO from 2024 revealed that it was not fully autonomous. Many of the "AI" decisions required review by humans. An accurate breakdown of JWO's cost model and ethical narrative is impossible without including that fact.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-key" style="">Strategic retreat missed</span>
+        <p class="tl-val" style="">My future potential was overly optimistic, heavily relying on projected technical improvements. It missed the important fact that Amazon closed more than a dozen of its stores and pulled JWO from larger grocery formats in 2023 and 2024. Real-world data-points like this retreat are core to accurately discussing the future.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-key" style="">Architecture too thin</span>
+        <p class="tl-val" style="">Our discussion of the architecture left much to be desired. Important points that should have received a deeper technical explanation include: Multi-Camera Person re-identification, how edge servers play a role in real-time tracking, and the way the virtual cart state machine reconciles conflicting sensor signals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 03 TECHNICAL -->
+<section id="technical">
+  <div class="section-inner reveal in">
+    <div class="sec-header">
+      <span class="sec-num">03 - Technical Deep Dive</span>
+      <h2 class="sec-title" style="">Architecture</h2>
+    </div>
+
+    <div style="margin-bottom: 3rem; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; background: var(--black);">
+      <img src="images/section 3.png" alt="Technical Architecture Diagram" style="width: 100%; height: auto; display: block; opacity: 0.9; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
+    </div>
+
+    <div class="arch-steps">
+      <div class="arch-step">
+        <span class="step-n">Step 01</span>
+        <span class="step-name" style="">Entry Gate &amp; Auth</span>
+        <p class="step-desc" style="">A shopper taps their card or an app enter, creating a session tied to their payment token. The cameras link a 3D analysis of their skeletal pose, enabling tracking without ever storing face biometrics.</p>
+      </div>
+      <div class="arch-step">
+        <span class="step-n">Step 02</span>
+        <span class="step-name" style="">Camera Array (CV)</span>
+        <p class="step-desc" style="">Shopper identity is maintained across zones of the store via multi camera person reidentification. Numerous RGB-D cameras are mounted on the ceiling to create coverage over every angle of the store.</p>
+      </div>
+      <div class="arch-step">
+        <span class="step-n">Step 03</span>
+        <span class="step-name" style="">Shelf Sensors</span>
+        <p class="step-desc" style="">Items being picked up or put back down assigns items or removes items from the active cart tied to the shoppers session. Capacitive pressure mats on the shelves act as sensors, measuring data points like weight to accurately track items.</p>
+      </div>
+      <div class="arch-step">
+        <span class="step-n">Step 04</span>
+        <span class="step-name" style="">RFID Readers</span>
+        <p class="step-desc" style="">Soft goods like apparel are tracked via UHF passive RFID tags. Sensors at the exit scan those tags, enabling high accuracy while requiring action by the shopper.</p>
+      </div>
+      <div class="arch-step">
+        <span class="step-n">Step 05</span>
+        <span class="step-name" style="">Edge Compute</span>
+        <p class="step-desc" style="">Edge devices operate object detection, re-identification, and skeletal models to enable high-speed cart updating. Low confidence detections are forwarded to the cloud. Edge devices mostly consist of GPUs running on-premise, enabling local data processing.</p>
+      </div>
+      <div class="arch-step">
+        <span class="step-n">Step 06</span>
+        <span class="step-name" style="">Cloud Cart Engine</span>
+        <p class="step-desc" style="">Various data points including probabilistic fusion weights from camera, shelf, and RFID confidence create an accurate event log while flagging low-confidence detections to prevent inaccurate billing.</p>
+      </div>
+      <div class="arch-step">
+        <span class="step-n">Step 07</span>
+        <span class="step-name" style="">Auto Billing</span>
+        <p class="step-desc" style="">Customers exit the store, closing their session. Their virtually tracked charges are billed to their card. Payment methods are stored as PCI-DSS vaulted tokens, ensuring security and compliance.</p>
+      </div>
+    </div>
+
+    <blockquote>
+      <p style="">"My group presentation focused too heavily on object recognition as the major technology hurdle in Just Walk Out technology. That's not accurate. Person re-identification, required when shoppers cross paths or a physical object blocks their visibility for a brief moment, is a much bigger hurdle. Re-ID utilizes things like learned appearance, gait analysis, and position priors, making it a much more complex issue than object detection."</p>
+      <cite style="">- Individual analysis: this depth was absent from the group presentation</cite>
+    </blockquote>
+
+    <div class="three-col">
+      <div>
+        <span class="col-label" style="">ML Pipeline</span>
+        <p class="col-body" style="">YOLO(You Only Look Once)-class CNN architectures handle object detection. Huge in-store video datasets are used in the training of Person Re-Identification networks. This enables consistent tracking regardless of factors like diverse store layouts, body types, and lighting. Data inputs from a variety of sensors are joined with probabilistic fusion and Bayesian weighting to make determinations, especially helpful when the data conflicts. Unfortunately, accuracy can take a major hit when stores become crowded, making Re-ID the biggest challenge for Just Walk Out technology.</p>
+      </div>
+      <div>
+        <span class="col-label" style="">Security</span>
+        <p class="col-body" style="">Card numbers are never stored in a raw form, they are strictly tokenized in vaults (in compliance with PCI-DSS). All the edge-to-cloud event data, such as low confidence events requiring human review, are TLS 1.3 encrypted. Skeletal data used to track shoppers is anonymized and deleted following the transaction. Sensor events are digitally signed in order to retain a high-integrity log (helpful with billing disputes). Because some items use RFID, cross-validation between data points like cameras is used to prevent RFID spoofing.</p>
+      </div>
+      <div>
+        <span class="col-label" style="">Scalability</span>
+        <p class="col-body" style="">The ceiling for scalability is largely economic, not technical. Capital expenditure per-store for the hardware and the installation process can surpass $1,000,000. That is a burden that many stores currently refuse to accept. The cloud architecture is comparably less expensive, utilizing Amazon's existing services, enabling multi-tenant usage of the same cloud hardware, reducing costs, and allowing for fast and easy scaling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 04 EVALUATION -->
+<section id="evaluation">
+  <div class="section-inner reveal in">
+    <div class="sec-header">
+      <span class="sec-num">04 - Critical Evaluation</span>
+      <h2 class="sec-title" style="">Four Lenses</h2>
+    </div>
+
+    <div class="eval-grid">
+      <div class="eval-item">
+        <span class="eval-label">Technical</span>
+        <div class="eval-title" style="">Limitations &amp; Reliability</div>
+        
+        <div style="margin: 1.25rem 0; border-radius: 8px; overflow: hidden; border: 1px solid rgba(200,160,80,0.2); box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
+          <img src="images/human-reviewer.png" alt="Human Reviewer" style="width: 100%; aspect-ratio: 21/9; object-fit: cover; object-position: center 30%; display: block; filter: brightness(0.9) contrast(1.05); transition: transform 0.4s ease, filter 0.4s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.filter='brightness(1) contrast(1)';" onmouseout="this.style.transform='scale(1)'; this.style.filter='brightness(0.9) contrast(1.05)';">
+        </div>
+
+        <ul class="eval-list">
+          <li style=""><strong>Produce:</strong> Fresh items have no packaging and no RFID. This makes them hard to track and core reason JWO largely failed to gain permanent adoption.</li>
+          <li style=""><strong>Humans in the mix:</strong> The technology was never "fully automated." In production, it still required roughly 1000 workers for reviewing transactions.</li>
+          <li style=""><strong>Crowd occlusion:</strong> Busy stores, especially at peak-hours, make Re-Identification difficult due to visual obstruction. This creates the need for human reviewers.</li>
+          <li style=""><strong>Setup complexity:</strong>&nbsp;Setting up JWO is an expensive process that can be unique to each store due to diverse conditions like store size, shape, layout, existing infrastructure, and lighting.</li>
+        </ul>
+      </div>
+
+      <div class="eval-item">
+        <span class="eval-label">Organizational</span>
+        <div class="eval-title" style="">Adoption Challenges</div>
+        <ul class="eval-list">
+          <li style=""><strong>Cost barrier:</strong>&nbsp;Upfront costs can surpass $1M. That means most small or medium sized stores, which happen to be the perfect location to test this technology, are blocked from adoption.</li>
+          <li style=""><strong>Labor complexity:</strong>&nbsp;With JWO, cashiers are no longer be necessary, but the store is far from "autonomous." The store still requires staff for various duties like stocking or cleaning. JWO could also introduce the need for new technical hires to maintain the technology. Existing cost estimates tend to overestimate the reduction in labor cost.</li>
+          <li style=""><strong>Integration overhead:</strong> Stores already use a variety of systems and software to manage their workflows. Implementing JWO would require massive overhauls to ensure functionality on all levels.</li>
+          <li style=""><strong>Vendor Lock in / Amazon dependency risk:</strong> Stores could become locked into Amazon's offerings. Amazon could choose to make JWO only compatible with certain devices or other software, limiting store freedom. This also makes stores vulnerable if Amazon ended JWO or changed its pricing.</li>
+        </ul>
+      </div>
+
+      <div class="eval-item">
+        <span class="eval-label">Ethical</span>
+        <div class="eval-title" style="">Privacy &amp; Fairness</div>
+        <ul class="eval-list">
+          <li style=""><strong>Pervasive surveillance:</strong> People don't enjoy having several data points about them tracked. JWO essentially creates a full behavioral record of you. Even if the goal is accurate cart tracking, such extensive data could be repurposed maliciously.</li>
+          <li style=""><strong>Behavioral data monetization:</strong> Amazon has a conflict of interest as both a platform and retailer. Data tracked about your shopping session can be incredibly valuable to them for reasons beyond billing.</li>
+          <li style=""><strong>Algorithmic bias:</strong> The datasets that tracking models are trained on are unlikely to contain data equally for every imaginable grouping of people, meaning billing errors would likely affect certain groups disproportionately, creating a suspicion of bias.</li>
+          <li style=""><strong>Consent ambiguity:</strong> Most software asks the user to consent to a set of terms and conditions. For JWO, entering the store acts as consent. The extent that customers are tracked is not obvious when entering.</li>
+        </ul>
+      </div>
+
+      <div class="eval-item">
+        <span class="eval-label">Societal</span>
+        <div class="eval-title" style="">Broader Impact</div>
+        
+        <div style="margin: 1.25rem 0; border-radius: 8px; overflow: hidden; border: 1px solid rgba(200,160,80,0.2); box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
+          <img src="images/turnstile.png" alt="Digital Divide at the Entry Gate" style="width: 100%; aspect-ratio: 21/9; object-fit: cover; object-position: center 25%; display: block; filter: brightness(0.9) contrast(1.05); transition: transform 0.4s ease, filter 0.4s ease;" onmouseover="this.style.transform='scale(1.03)'; this.style.filter='brightness(1) contrast(1)';" onmouseout="this.style.transform='scale(1)'; this.style.filter='brightness(0.9) contrast(1.05)';">
+        </div>
+
+        <ul class="eval-list">
+          <li style=""><strong>Digital divide:</strong> JWO requires a smartphone app or a tapable card to enter the gate. Customers without banking, or elderly shoppers lacking technical abilities, would be effectively excluded from the store.</li>
+          <li style=""><strong>Job displacement:</strong> Over 3.5 million Americans work as cashiers in the retail industry. If JWO technology were adopted rapidly and on a wide-scale, millions could be at risk of job displacement.</li>
+          <li style=""><strong>Accessibility gaps:</strong> Customers with disabilities, both mental and physical, may struggle without the help of a human worker replaced by JWO.</li>
+          <li style=""><strong>Surveillance normalization:</strong> JWO normalizes mass surveillance. As people get used to their data being tracked constantly in a store, their opinions regarding other types of surveillance in different contexts may change. A future is imaginable where every action you make is tracked as a data point.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 05 CS INTEGRATION -->
+<section id="cs">
+  <div class="section-inner reveal in">
+    <div class="sec-header">
+      <span class="sec-num">05 - CS Knowledge</span>
+      <h2 class="sec-title" style="">Connections</h2>
+    </div>
+
+    <div class="cs-list">
+      <div class="cs-item">
+        <span class="cs-n">Area 01</span>
+        <div class="cs-name" style="">AI &amp; Machine Learning</div>
+        <p class="cs-body" style="">JWO is one of the first examples of applied deep learning at scale. Real-time object detection models (YOLO CNNS) enable item tracking and person re-identification. The models use large sets of video data, and must become capable of generalizing across environments. Probability models are applied to analyze cart actions, especially under low-confidence conditions.</p>
+      </div>
+      <div class="cs-item">
+        <span class="cs-n">Area 02</span>
+        <div class="cs-name" style="">Distributed Systems</div>
+        <p class="cs-body" style="">JWO infrastructure is a distributed edge-cloud hybrid, with each path solving specific needs. The stores run their own edge cluster on-premise. This provides extremely low latency for things like tracking and billing. Hybrid infrastructure handles edge cases, such as a low confidence detection requiring review.</p>
+      </div>
+      <div class="cs-item">
+        <span class="cs-n">Area 03</span>
+        <div class="cs-name" style="">Databases &amp; Streams</div>
+        <p class="cs-body" style="">The customer's cart is tracked as an event log, specifically append-only. Every item pick up or returned to the shelf is streamed and materialized to the event log (via Command Query Responsibility Segregation). Databases are used on the inventory side, updated through shelf sensors. Hundreds of shelves are tracked in parallel, and compared to cart data to ensure accuracy. Reading and writing to these databases occurs nearly instantaneously, a requirement for a high-traffic retail context.</p>
+      </div>
+      <div class="cs-item">
+        <span class="cs-n">Area 04</span>
+        <div class="cs-name" style="">Cybersecurity</div>
+        <p class="cs-body" style="">Payment methods are token vaulted in compliance with PCI-DSS. Event logs are encrypted with TLS 1.3. Sensor events are signed to keep a strong audit trial incase disputes arise. RFID spoofing threats are expected and pre-emptively mitigated. Session hijacking (in this case cart merging), as well as manipulation of cameras are mitigated by redundant installations and multiple angles of the same data. Amazon's approach to Cybersecurity is strong, not an afterthought.</p>
+      </div>
+      <div class="cs-item">
+        <span class="cs-n">Area 05</span>
+        <div class="cs-name" style="">Networking &amp; OS</div>
+        <p class="cs-body" style="">Sensor networks are used on-premise to manage dozens to hundreds of camera feeds, shelf events, customer entrances, and customer exits. Such a huge amount of data relies on 10 Gigabit Ethernet to keep latency negligible. The Quality of Service policies used by JWO-supporting networks prioritize interference traffic to keep all the critical systems operating efficiently.</p>
+      </div>
+      <div class="cs-item">
+        <span class="cs-n">Area 06</span>
+        <div class="cs-name" style="">Software Engineering</div>
+        <p class="cs-body" style="">Software Engineering is at the core of JWO. If nothing else, JWO is a SaaS platform. That means it comes with all the same requirements of a standard Software, such as a service level agreement, DevOps methodologies like CI/CD to allow for updates and deployment with minimal downtime for stores, rigorous testing, and onboarding processes for all new stores adopting JWO.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 06 REFLECTION -->
+<section id="reflection">
+  <div class="section-inner reveal in">
+    <div class="sec-header">
+      <span class="sec-num">06 - Reflection</span>
+      <h2 class="sec-title" style="">Growth &amp; Vision</h2>
+    </div>
+
+    <div class="growth-track">
+      <div class="gt-step">
+        <span class="gt-phase">Phase 01 - During Group Work</span>
+        <div class="gt-label" style="">Surface Level</div>
+        <p class="gt-desc" style="">I had a basic understanding of the technology, how it may work in the future, and what was slowing down its success at the moment. Much of it was informed directly from Amazon's marketing, rather than intensive digging into the topic. The barriers I shared largely came down to specific engineering issues with a direct solution.</p>
+      </div>
+      <div class="gt-step">
+        <span class="gt-phase">Phase 02 - Post Presentation</span>
+        <div class="gt-label" style="">Questioning the Narrative</div>
+        <p class="gt-desc" style="">I realized Amazon's own marketing material lacked objectivity. As the producer of this technology, as well as a retailer, Amazon had obvious conflicts of interest. Upon more research, I learned about the 1,000 or so remote workers required for the technology to work, which broke the "automated" narrative. I also learned about Amazon pulling the technology from production. This gave me a better perspective on the challenges faced.</p>
+      </div>
+      <div class="gt-step">
+        <span class="gt-phase">Phase 03 - Individual Portfolio</span>
+        <div class="gt-label" style="">Deep Analysis</div>
+        <p class="gt-desc" style="">I decided to fully understand the technical, ethical, and strategic considerations that come with JWO. I developed an understanding of Hybrid retail, and how JWO could apply in specific use cases. It is clearer now where JWO technology is mature, and more importantly where it is not yet ready for large scale adoption.</p>
+      </div>
+    </div>
+
+    <div class="reflect-pairs">
+      <div class="rp">
+        <span class="rp-q">What did I learn individually?</span>
+        <p class="rp-a" style="">The marketing for real-world implementations of AI typically does not tell the entire story. AI systems, their development, implementation, and production phases, can come with unforeseen hurdles that undermine their premise. For instance, Just Walk Out technology is discussed as "retail, but fully automated" however the 2024 revelation about human reviewers revealed that real-world AI implementations still require human input and cooperation. In the near future, hybrid approaches that unite AI intelligence with Human Input will likely outperform both individually.</p>
+      </div>
+      <div class="rp">
+        <span class="rp-q">How did my understanding change?</span>
+        <p class="rp-a" style="">My part of the presentation discussed the barriers for this technology. I framed those barriers as engineering obstacles that would likely be overcome as technology advances and costs decrease. I now understand the obstacles differently. The obstacles were not simply waiting for the tech to catch up, they were evidence that JWO is simply not a good option for large scale retail stores. JWO does however, have strong contextual use cases.</p>
+      </div>
+      <div class="rp">
+        <span class="rp-q">What new vision do I have?</span>
+        <p class="rp-a" style="">I don't think JWO, or technology similar to it, will be discontinued due to the challenges it faced in the past. In the near future, JWO could be widely adopted in high-throughput areas with small physical space, such as airport stores, concession stands, events, or company cafeterias. Long term, technical advancements and social proof could allow JWO to be reintroduced to grocery stores and large retailers, but as an option for shoppers rather than a total requirement. JWO could operate in hybrid with human cashiers, for example as a fast lane.</p>
+      </div>
+      <div class="rp">
+        <span class="rp-q">What would I do differently?</span>
+        <p class="rp-a" style="">I would have approached the barriers slide with more nuance. I would have analyzed the historical success metrics, as well as the reasons it has failed, to understand how the reality of JWO differed from the initial advertising. I would look at analyzing the technical, economic, and fundamental gaps through a root-cause framework. My data points regarding costs and technical hurdles were solid, but the focus was too narrow, and lacked the most valuable data point of all: real-world outcomes.</p>
+      </div>
+      <div class="rp">
+        <span class="rp-q">What did the team miss?</span>
+        <p class="rp-a" style="">We missed the story about human reviewers. That revelation was shocking to me when it came up in my research, because it so clearly undermines the initial promise of the technology. We also missed Amazon's conflict of interest as both a retailer and a licensor. When one of Amazon's retail competitors adopts JWO, Amazon gains an intelligence edge as it gets access to shoppers' valuable behavioral data. Considering this, it would not be surprising if Amazon views JWO as a data collection strategy rather than a shopping automation tool.</p>
+      </div>
+      <div class="rp">
+        <span class="rp-q">Opportunities beyond what we identified?</span>
+        <p class="rp-a" style="">JWO, or technology similar to it, could apply in nearly any context where high-speed and reliable inventory tracking is needed. One clear example would be in healthcare, specifically in a pharmacy or hospital supply room. Medications and hospital supplies are highly regulated, prone to stealing, and carry huge consequences for businesses when mishandled. JWO could enable live tracking of medicine inventory and who is handling those medicines, creating auditable logs and accountability.</p>
+      </div>
+      <div class="rp">
+        <span class="rp-q">How close is this to real-world implementation?</span>
+        <p class="rp-a" style="">JWO is already being used in specific constrained environments like airports or stadium concessions. Trials in full-sized grocery stores proved that it was not yet ready for that use case. If the current pace of technological advancement continues, bringing setup to below $250K/store and improving recognition of produce (a major challenge), we could see JWO re-enter the grocery and large-scale retail sectors within 5-10 years. This is also contingent on public approval for the technology remaining steady, since individuals are becoming increasingly weary of surveillance in the age of artificial intelligence.</p>
+      </div>
+      <div class="rp">
+        <span class="rp-q">Main barriers going forward?</span>
+        <p class="rp-a" style="">Three stand above the rest: (1) Economic: Mainstream adoption will not come unless hardware prices fall dramatically; (2) Regulatory: Regulators in many jurisdictions are becoming increasingly against Artificial Intelligence and data tracking. Compliance with EU GDPR and U.S. state biometric privacy laws (Illinois BIPA, Texas CUBI) must be met before adoption is possible; (3) Social acceptance: One large news story about JWO that covers mass data harvesting, a data mismanagement event (leak), or an egregious billing error could destroy public approval for decades.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- CITATIONS -->
+<section id="citations">
+  <div class="section-inner reveal in">
+    <div class="sec-header">
+      <span class="sec-num">Sources</span>
+      <h2 class="sec-title" style="">Citations</h2>
+    </div>
+
+    <p class="col-body" style="margin-bottom: 2rem;">
+      This website was styled and designed with some help from artificial intelligence. Select images were generated with artificial intelligence.<br><br>Artificial intelligence was used as a search tool to find the following relevant sources:
+    </p>
+
+    <div class="cit-list">
+      <div class="cit-item">
+        <span class="cit-num">[1]</span>
+        <p class="cit-text" style="">
+          Ye, M., Shen, J., Lin, G., Xiang, T., Shao, L., &amp; Hoi, S. C. H. (2022). Deep learning for person re-identification: A survey and outlook. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence, 44</em>(6), https://doi.org/10.1109/TPAMI.2021.3054775
+        </p>
+      </div>
+      <div class="cit-item">
+        <span class="cit-num">[2]</span>
+        <p class="cit-text" style="">
+          Floerkemeier, C., Lampe, M., &amp; Schoch, T. (2005). Issues with RFID usage in ubiquitous computing applications. <em>Lecture Notes in Computer Science (Pervasive Computing), 3001</em>, 188-193. https://doi.org/10.1007/978-3-540-24646-6_13
+        </p>
+      </div>
+    </div>
+
+    <p class="col-label" style="margin-top: 2.5rem; margin-bottom: 1rem;">Prior Sources</p>
+    <div class="tl" style="opacity:0.65;">
+      <div class="tl-item">
+        <span class="tl-key" style="font-size: 0.72rem;">T-ROC Editorial</span>
+        <p class="tl-val" style="font-size: 0.78rem;">Team, T-ROC Editorial. "The Rise of Cashierless Stores." T-ROC, 6 Mar. 2025.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-key" style="font-size: 0.72rem;">Just Walk Out</span>
+        <p class="tl-val" style="font-size: 0.78rem;">"Eliminate Checkout Lines. Increase Revenue with Cost-Optimized Technology." Just Walk Out, 2024.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-key" style="font-size: 0.72rem;">Network World</span>
+        <p class="tl-val" style="font-size: 0.78rem;">Kerravala, Z. "RFID Boosts Amazon's Autonomous Retail Tech." Network World, 21 Jan. 2026.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-key" style="font-size: 0.72rem;">GeekWire</span>
+        <p class="tl-val" style="font-size: 0.78rem;">Soper, T. "Testing Amazon's New Cashierless Clothing Shop at Lumen Field." GeekWire, 2 Oct. 2023.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-key" style="font-size: 0.72rem;">Forrester</span>
+        <p class="tl-val" style="font-size: 0.78rem;">Kodali, S. "No, Amazon Isn't Killing Just Walk Out but Rather Pushing Hard on It." Forrester, 4 Apr. 2024.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <p style=""><span>Ric Rebull</span> - COP 4910 Integrative Innovation Portfolio · Spring 2026 · UCF</p>
+    <p style="">Innovation: <span>Amazon Just Walk Out Technology</span></p>
+  </div>
+</footer>
+
+<script>
+  // -- parallax hero --
+  const heroBg   = document.getElementById('hero-bg');
+  const heroWrap = document.querySelector('#hero .wrap');
+  const heroH    = document.getElementById('hero').offsetHeight;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < heroH * 1.2) {
+      heroBg.style.transform   = `translateY(${y * 0.38}px)`;
+      heroWrap.style.transform = `translateY(${-y * 0.12}px)`;
+      heroWrap.style.opacity   = Math.max(0, 1 - (y / heroH) * 1.4);
+    }
+  }, { passive: true });
+
+  // -- scroll reveal --
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // -- timeline --
+  const timelineData = [
+    "Development",
+    "First Go Store",
+    "B2B Licensing",
+    "Grocery Retreat",
+    "Human Reviewer Revelation",
+    "Present Day"
+  ];
+  const tSlider = document.getElementById('timeline-slider');
+  const tDisplay = document.getElementById('timeline-text');
+  let tTimeout;
+
+  if (tSlider && tDisplay) {
+    tSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value);
+      if (tDisplay.dataset.current === val.toString()) return;
+      tDisplay.dataset.current = val;
+      
+      tDisplay.style.opacity = 0;
+      tDisplay.style.transform = 'translateY(15px) scale(0.95)';
+      
+      clearTimeout(tTimeout);
+      tTimeout = setTimeout(() => {
+        tDisplay.textContent = timelineData[val];
+        tDisplay.style.opacity = 1;
+        tDisplay.style.transform = 'translateY(0) scale(1)';
+      }, 300);
+    });
+  }
+
+  // -- active nav --
+  const secs = document.querySelectorAll('section[id]');
+  const links = document.querySelectorAll('.nav-links a:not(.cta)');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    secs.forEach(s => { if (window.scrollY >= s.offsetTop - 110) cur = s.id; });
+    links.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--cream)' : '';
+    });
+  }, { passive: true });
+
+</script>
+
+
+</body></html>
